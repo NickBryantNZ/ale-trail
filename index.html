@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friday Ale Trail — City ➜ Morningside | City Ale Link</title>
+<meta property="og:title" content="Friday Ale Trail — City ➜ Morningside">
+<meta property="og:description" content="5 pubs, 5 stamps, real CRL train times. First beer 6:30pm at The Brewers Co-operative, last train caught at Kingsland 8:56pm.">
+<style>
+  :root{
+    --paper:#f4ead5; --card:#fffdf6; --ink:#1d1a14;
+    --amber:#b3541e; --gold:#ffd23f; --green:#1d5c46; --red:#b03030;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Courier New',monospace;background:var(--paper);color:var(--ink);padding:28px 14px 60px}
+  .wrap{max-width:860px;margin:0 auto}
+  header{text-align:center;margin-bottom:34px}
+  .kicker{font-family:Arial,sans-serif;letter-spacing:4px;text-transform:uppercase;font-size:12px;color:var(--amber);font-weight:bold}
+  h1{font-family:'Arial Black',Arial,sans-serif;font-size:clamp(26px,5vw,42px);text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px}
+  .sub{font-family:Arial,sans-serif;font-size:14px;color:#5a5245}
+  .sharebar{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+  .btn{font-family:Arial,sans-serif;font-weight:bold;font-size:13px;text-transform:uppercase;letter-spacing:1px;
+       background:var(--gold);color:var(--ink);border:2px solid var(--ink);border-radius:4px;
+       padding:9px 16px;cursor:pointer;text-decoration:none;box-shadow:3px 3px 0 var(--ink);transition:transform .1s}
+  .btn:hover{transform:translate(-1px,-1px)}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  .stop{background:var(--card);border:3px solid var(--ink);border-radius:8px;box-shadow:7px 7px 0 var(--ink);
+        margin-bottom:26px;overflow:hidden}
+  .stop-head{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:3px dashed var(--ink);
+             background:var(--amber);color:var(--card);flex-wrap:wrap}
+  .stop:nth-of-type(even) .stop-head{background:var(--green)}
+  .stamp{font-family:'Arial Black',Arial,sans-serif;font-size:13px;border:2px solid currentColor;border-radius:50%;
+         width:52px;height:52px;min-width:52px;display:flex;align-items:center;justify-content:center;transform:rotate(-8deg);text-align:center;line-height:1.1}
+  .stop-head h2{font-family:'Arial Black',Arial,sans-serif;text-transform:uppercase;font-size:clamp(17px,3.5vw,22px)}
+  .stop-head .station{font-family:Arial,sans-serif;font-size:12px;opacity:.9}
+  .when{margin-left:auto;font-family:'Courier New',monospace;font-weight:bold;font-size:15px;background:var(--card);color:var(--ink);
+        border:2px solid var(--ink);padding:5px 12px;border-radius:4px;transform:rotate(2deg);white-space:nowrap}
+  .stop-body{display:grid;grid-template-columns:130px 1fr;gap:18px;padding:18px 20px}
+  @media(max-width:560px){.stop-body{grid-template-columns:1fr}}
+  .photo-box{border:2px solid var(--ink);border-radius:6px;background:var(--paper);text-align:center;
+             padding:14px 8px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+  .photo-box .emoji{font-size:38px}
+  .photo-box a{font-family:Arial,sans-serif;font-size:12px;font-weight:bold;color:var(--amber)}
+  .info{font-family:Arial,sans-serif;font-size:14px;line-height:1.55}
+  .info .addr{font-weight:bold}
+  .links{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .chip{font-family:Arial,sans-serif;font-size:12px;font-weight:bold;border:2px solid var(--ink);border-radius:20px;
+        padding:4px 12px;text-decoration:none;color:var(--ink);background:#fff}
+  .chip:hover{background:var(--gold)}
+  .train{margin:0 20px 18px;border:2px dashed var(--ink);border-radius:6px;padding:10px 14px;background:var(--paper);
+         font-family:'Courier New',monospace;font-size:13px;line-height:1.7}
+  .train b{color:var(--amber)}
+  .train .dep{font-size:15px}
+  .train a{color:var(--green);font-weight:bold}
+  .backup{opacity:.75}
+  .dinner .stop-head{background:var(--ink)}
+  .menu{font-family:Arial,sans-serif;font-size:13px;width:100%;border-collapse:collapse;margin-top:6px}
+  .menu td{padding:5px 4px;border-bottom:1px dotted #c9bfa8;vertical-align:top}
+  .menu td.price{text-align:right;font-family:'Courier New',monospace;font-weight:bold;white-space:nowrap}
+  .warn{border-left:4px solid var(--red);background:#fdeeee;padding:10px 14px;margin-top:12px;font-size:13px}
+  .tip{border-left:4px solid var(--green);background:#eef7f2;padding:10px 14px;margin-top:12px;font-size:13px}
+  .harshil{background:var(--card);border:3px solid var(--ink);border-radius:8px;box-shadow:7px 7px 0 var(--ink);
+           padding:20px;margin-bottom:26px}
+  .harshil h2{font-family:'Arial Black',Arial,sans-serif;text-transform:uppercase;font-size:18px;margin-bottom:10px}
+  .harshil p{font-family:Arial,sans-serif;font-size:14px;line-height:1.6}
+  .harshil .late{font-family:'Courier New',monospace;font-weight:bold;background:var(--gold);padding:1px 6px;border:1px solid var(--ink)}
+  .latetable{width:100%;border-collapse:collapse;font-family:'Courier New',monospace;font-size:13px;margin-top:12px}
+  .latetable th{font-family:Arial,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--amber);
+                text-align:left;border-bottom:2px solid var(--ink);padding:6px}
+  .latetable td{padding:6px;border-bottom:1px dotted #c9bfa8}
+  footer{text-align:center;font-family:Arial,sans-serif;font-size:12px;color:#7a7161;margin-top:30px;line-height:1.8}
+  footer a{color:var(--amber);font-weight:bold}
+  @media print{
+    body{background:#fff;padding:0}
+    .sharebar{display:none}
+    .stop,.harshil{box-shadow:none;break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">City Ale Link · Friday Session · Itinerary A</div>
+  <h1>🍺 The Outbound Crawl</h1>
+  <p class="sub">City ➜ Morningside · 5 pubs · 5 stamps · real CRL times, Swanson-bound · first beer 6:30pm</p>
+  <div class="sharebar">
+    <button class="btn" id="copyBtn">🔗 Copy link to share</button>
+    <button class="btn" onclick="window.print()">🖨️ Print</button>
+    <a class="btn" href="https://cityalelink.co.nz/" target="_blank" rel="noopener">🎫 City Ale Link passport</a>
+  </div>
+</header>
+
+<!-- STOP 1 -->
+<section class="stop">
+  <div class="stop-head">
+    <div class="stamp">STAMP 1</div>
+    <div><h2>The Brewers Co-operative</h2><div class="station">Te Waihorotiu Station · CBD</div></div>
+    <div class="when">6:30 – 7:10pm</div>
+  </div>
+  <div class="stop-body">
+    <div class="photo-box">
+      <div class="emoji">🏙️</div>
+      <a href="https://www.google.com/maps/search/?api=1&query=The+Brewers+Co-operative+128+Victoria+Street+West+Auckland" target="_blank" rel="noopener">📷 Photos &amp; Street View</a>
+    </div>
+    <div class="info">
+      <p class="addr">128–132 Victoria Street West, Auckland Central</p>
+      <p>Kick-off, a short walk from Te Waihorotiu station. Grab your City Ale Link passport and first stamp here.</p>
+      <div class="links">
+        <a class="chip" href="https://www.google.com/maps/search/?api=1&query=The+Brewers+Co-operative+128+Victoria+Street+West+Auckland" target="_blank" rel="noopener">📍 Open in Google Maps</a>
+      </div>
+    </div>
+  </div>
+  <div class="train">🚆 <span class="dep">Catch the <b>7:15pm</b> from Te Waihorotiu</span> (toward Swanson) → arrive Karanga-a-Hape <b>7:18pm</b><br><span class="backup">Backup trains: 7:30pm · 7:45pm · 8:00pm</span></div>
+</section>
+
+<!-- STOP 2 -->
+<section class="stop">
+  <div class="stop-head">
+    <div class="stamp">STAMP 2</div>
+    <div><h2>Northern Line Bar &amp; Social</h2><div class="station">Karanga-a-Hape Station · K'Road</div></div>
+    <div class="when">7:20 – 7:45pm</div>
+  </div>
+  <div class="stop-body">
+    <div class="photo-box">
+      <div class="emoji">🎸</div>
+      <a href="https://www.google.com/maps/search/?api=1&query=Northern+Line+Bar+%26+Social+6+Beresford+Square+Auckland" target="_blank" rel="noopener">📷 Photos &amp; Street View</a>
+    </div>
+    <div class="info">
+      <p class="addr">6 Beresford Square, Auckland Central · open till 12am</p>
+      <p>Right on Beresford Square by the station entrance. ~25 min for a beer — don't get comfy.</p>
+      <div class="links">
+        <a class="chip" href="https://www.google.com/maps/search/?api=1&query=Northern+Line+Bar+%26+Social+6+Beresford+Square+Auckland" target="_blank" rel="noopener">📍 Open in Google Maps</a>
+        <a class="chip" href="https://northernline.co.nz/" target="_blank" rel="noopener">🌐 Website</a>
+        <a class="chip" href="https://www.instagram.com/northernlinebarandsocial/" target="_blank" rel="noopener">📸 Instagram</a>
+      </div>
+    </div>
+  </div>
+  <div class="train">🚆 <span class="dep">Catch the <b>7:48pm</b> from Karanga-a-Hape</span> → arrive Maungawhau <b>7:52pm</b><br><span class="backup">Backup trains: 8:03pm · 8:18pm</span></div>
+</section>
+
+<!-- STOP 3 -->
+<section class="stop">
+  <div class="stop-head">
+    <div class="stamp">STAMP 3</div>
+    <div><h2>Small Gods Taproom</h2><div class="station">Maungawhau Station · Eden Terrace</div></div>
+    <div class="when">7:55 – 8:20pm</div>
+  </div>
+  <div class="stop-body">
+    <div class="photo-box">
+      <div class="emoji">⚗️</div>
+      <a href="https://www.google.com/maps/search/?api=1&query=Small+Gods+Taproom+2+Shaddock+Street+Eden+Terrace+Auckland" target="_blank" rel="noopener">📷 Photos &amp; Street View</a>
+    </div>
+    <div class="info">
+      <p class="addr">2 Shaddock Street, Eden Terrace</p>
+      <p>Collaborative, historical &amp; experimental brewing — ancient styles with a modern twist.</p>
+      <div class="links">
+        <a class="chip" href="https://www.google.com/maps/search/?api=1&query=Small+Gods+Taproom+2+Shaddock+Street+Eden+Terrace+Auckland" target="_blank" rel="noopener">📍 Open in Google Maps</a>
+        <a class="chip" href="https://www.smallgods.co.nz/" target="_blank" rel="noopener">🌐 Website</a>
+      </div>
+    </div>
+  </div>
+  <div class="train">🚆 <span class="dep">Catch the <b>8:22pm</b> from Maungawhau</span> → arrive Kingsland <b>8:26pm</b><br><span class="backup">Backup train: 8:52pm</span></div>
+</section>
+
+<!-- STOP 4 -->
+<section class="stop">
+  <div class="stop-head">
+    <div class="stamp">STAMP 4</div>
+    <div><h2>Saint Leonards Brewing</h2><div class="station">Kingsland Station</div></div>
+    <div class="when">8:30 – 8:55pm</div>
+  </div>
+  <div class="stop-body">
+    <div class="photo-box">
+      <div class="emoji">🍻</div>
+      <a href="https://www.google.com/maps/search/?api=1&query=Saint+Leonards+Brewing+394+New+North+Road+Kingsland+Auckland" target="_blank" rel="noopener">📷 Photos &amp; Street View</a>
+    </div>
+    <div class="info">
+      <p class="addr">394 New North Road, Kingsland</p>
+      <p>Neighbourhood brewery just off Kingsland station. <b>Drinks stop</b> — no kitchen confirmed here, so hold out for dinner at the finish.</p>
+      <div class="links">
+        <a class="chip" href="https://www.google.com/maps/search/?api=1&query=Saint+Leonards+Brewing+394+New+North+Road+Kingsland+Auckland" target="_blank" rel="noopener">📍 Open in Google Maps</a>
+      </div>
+    </div>
+  </div>
+  <div class="train">🚆 <span class="dep">Catch the <b>8:56pm</b> from Kingsland</span> → arrive Morningside <b>8:58pm</b><br><span class="backup">Backup trains: 9:26pm · 9:56pm</span></div>
+</section>
+
+<!-- STOP 5 -->
+<section class="stop">
+  <div class="stop-head">
+    <div class="stamp">STAMP 5</div>
+    <div><h2>The Beer Spot</h2><div class="station">Morningside Station · Finish line 🏁</div></div>
+    <div class="when">9:00 – 10:00pm</div>
+  </div>
+  <div class="stop-body">
+    <div class="photo-box">
+      <div class="emoji">🏆</div>
+      <a href="https://www.google.com/maps/search/?api=1&query=The+Beer+Spot+596+New+North+Road+Morningside+Auckland" target="_blank" rel="noopener">📷 Photos &amp; Street View</a>
+    </div>
+    <div class="info">
+      <p class="addr">596 New North Road, Morningside · 09 974 2985 · open till 10pm Fri</p>
+      <p>Final stamp — and a full hour to enjoy it. <b>Food on site:</b> the current food truck is <b>The White Lady</b> (classic Kiwi burgers), so dinner can happen right here at the finish line.</p>
+      <div class="links">
+        <a class="chip" href="https://www.google.com/maps/search/?api=1&query=The+Beer+Spot+596+New+North+Road+Morningside+Auckland" target="_blank" rel="noopener">📍 Open in Google Maps</a>
+        <a class="chip" href="https://www.thebeerspot.co.nz/morningside" target="_blank" rel="noopener">🌐 Website &amp; drinks menu</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DINNER -->
+<section class="stop dinner">
+  <div class="stop-head">
+    <div class="stamp">🍜 FOOD</div>
+    <div><h2>Dinner at the finish</h2><div class="station">Morningside · from ~9:30pm</div></div>
+    <div class="when">~10:00pm →</div>
+  </div>
+  <div class="stop-body">
+    <div class="photo-box">
+      <div class="emoji">🍔</div>
+      <a href="https://www.google.com/maps/search/?api=1&query=The+White+Lady+Auckland" target="_blank" rel="noopener">📷 Photos &amp; Street View</a>
+    </div>
+    <div class="info">
+      <p class="addr">Option 1 (easiest) · The White Lady food truck — on site at The Beer Spot</p>
+      <p>Classic Kiwi burgers without moving your chair. Order before the truck winds down toward 10pm.</p>
+      <p style="margin-top:12px" class="addr">Option 2 · Sake Bar Icco — 601 New North Rd (across from the station) · 09 849 7268</p>
+      <table class="menu">
+        <tr><td>icco Special Karaage (5pcs)</td><td class="price">$23</td></tr>
+        <tr><td>Sashimi — tuna, salmon &amp; white fish, 12pcs</td><td class="price">$42</td></tr>
+        <tr><td>Assorted Tempura — prawn, fish &amp; veges</td><td class="price">$32</td></tr>
+        <tr><td>Chicken Katsu (main)</td><td class="price">$33</td></tr>
+        <tr><td>House sake ‘Samurai’ (300ml tokkuri)</td><td class="price">$24</td></tr>
+      </table>
+      <div class="warn">⏰ <b>Icco timing:</b> Friday last order is <b>9:00pm</b> — too tight after a 9pm Beer Spot arrival. It only works if someone breaks away at Kingsland (~8:30pm) to order for the table, or you skip stop 4.</div>
+      <div class="tip">💡 <b>Plan B:</b> <b>Fat Boy Thai</b> (617 New North Rd) is a couple of doors down — <a href="https://www.google.com/maps/search/?api=1&query=Fat+Boy+Thai+617+New+North+Road+Morningside+Auckland" target="_blank" rel="noopener">check Friday hours on Google Maps</a>. Or train back to town — outbound trains from Morningside run 10:28pm · 10:58pm · 11:28pm · 11:58pm (toward Swanson; city-bound from the opposite platform).</div>
+    </div>
+  </div>
+</section>
+
+<!-- HARSHIL -->
+<section class="harshil">
+  <h2>⏱️ The Harshil Clause</h2>
+  <p>We leave The Brewers Co-operative in time for the <b>7:15pm</b> train, with or without him. Missed the crawl start? No drama — trains toward Swanson leave Te Waihorotiu at <span class="late">7:30 · 7:45 · 8:00 · 8:15</span>, so he can chase us down the line:</p>
+  <table class="latetable">
+    <tr><th>If he leaves Te Waihorotiu…</th><th>He catches us at…</th><th>Beers missed</th></tr>
+    <tr><td>7:30pm</td><td>Northern Line (before our 7:48 train)</td><td>1</td></tr>
+    <tr><td>7:45 / 8:00pm</td><td>Small Gods Taproom</td><td>2</td></tr>
+    <tr><td>8:15pm</td><td>Saint Leonards, Kingsland</td><td>3</td></tr>
+    <tr><td>8:45pm</td><td>The Beer Spot (just in time)</td><td>4 — practically a personal best</td></tr>
+  </table>
+</section>
+
+<!-- LATE TRAINS -->
+<section class="harshil">
+  <h2>🌙 Getting home</h2>
+  <p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.7">
+    Evening service thins out after ~8:15pm to roughly every 30 min. Swanson-bound departures from Te Waihorotiu run <b>8:45 · 9:15 · 9:45 · 10:15 · 10:45 · 11:15 · 11:45pm · 12:15 · 12:45 · 1:15am</b> (city-bound times mirror from the opposite platform — check AT on the night). For the Takapuna crew: train back to town, then the Northern Busway home.
+  </p>
+</section>
+
+<footer>
+  🚆 All train times are real published Swanson-bound departures from the CRL weekday-evening timetable · verify on the day: <a href="https://at.govt.nz/bus-train-ferry/timetables" target="_blank" rel="noopener">at.govt.nz timetables</a> · <a href="https://cityalelink.co.nz/" target="_blank" rel="noopener">cityalelink.co.nz</a><br>
+  Collect all 5 stamps to unlock the City Ale Link perks. Drink responsibly. 🍻
+</footer>
+
+</div>
+<script>
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var btn = this;
+    var done = function(){ btn.textContent = '✅ Link copied!'; setTimeout(function(){ btn.textContent = '🔗 Copy link to share'; }, 2000); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(window.location.href).then(done).catch(done);
+    } else {
+      var t = document.createElement('textarea'); t.value = window.location.href;
+      document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); done();
+    }
+  });
+</script>
+</body>
+</html>
